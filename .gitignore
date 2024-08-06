@@ -22,5 +22,5 @@ go.work
 go.work.sum
 
 # Build output
-tools
-tools.exe
+main
+main.exe
