@@ -1,6 +1,6 @@
 package main
 
-import "tools/cmd"
+import "github.com/gitslagga/tools/cmd"
 
 func main() {
 	cmd.Execute()

@@ -1,4 +1,4 @@
-module tools
+module github.com/gitslagga/tools
 
 go 1.22.5
 

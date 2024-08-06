@@ -3,8 +3,8 @@ package cmd
 import (
 	"fmt"
 	"strconv"
-	"tools/kit"
 
+	"github.com/gitslagga/tools/kit"
 	"github.com/spf13/cobra"
 )
 
