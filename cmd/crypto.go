@@ -27,21 +27,21 @@ var tokenCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		switch len(args) {
 		case 0:
-			token := kit.ShuffleArray(kit.DefaultStr, kit.DefaultLength)
+			token := kit.ShuffleArray(kit.DefaultAlphabet, kit.DefaultLength)
 			fmt.Println("crypto token generate:", token)
 		case 1:
 			if length, err := strconv.Atoi(args[0]); err != nil {
-				str := kit.AllAlphabet(args[0])
-				token := kit.ShuffleArray(str, kit.DefaultLength)
+				alphabet := kit.AllAlphabet(args[0])
+				token := kit.ShuffleArray(alphabet, kit.DefaultLength)
 				fmt.Println("crypto token generate:", token)
 			} else {
-				token := kit.ShuffleArray(kit.DefaultStr, length)
+				token := kit.ShuffleArray(kit.DefaultAlphabet, length)
 				fmt.Println("crypto token generate:", token)
 			}
 		default:
-			str := kit.AllAlphabet(args[0])
+			alphabet := kit.AllAlphabet(args[0])
 			length, _ := strconv.Atoi(args[1])
-			token := kit.ShuffleArray(str, length)
+			token := kit.ShuffleArray(alphabet, length)
 			fmt.Println("crypto token generate:", token)
 		}
 	},
@@ -53,6 +53,9 @@ var hashCmd = &cobra.Command{
 	Short: "Hash a text string using the function you need : MD5, SHA1, SHA256, SHA224, SHA512, SHA384, SHA3 or RIPEMD160",
 	Run: func(cmd *cobra.Command, args []string) {
 		md5Hash := kit.GenerateMD5(hashString, hashEncoding)
-		fmt.Println("crypto md5 hash generate:", md5Hash)
+		fmt.Printf("%-30s %s\n", "crypto md5 hash generate:", md5Hash)
+
+		sha1Hash := kit.GenerateSha1(hashString, hashEncoding)
+		fmt.Printf("%-30s %s\n", "crypto sha1 hash generate:", sha1Hash)
 	},
 }

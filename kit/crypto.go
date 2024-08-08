@@ -2,6 +2,7 @@ package kit
 
 import (
 	"crypto/md5"
+	"crypto/sha1"
 	"encoding/base64"
 	"encoding/hex"
 	"fmt"
@@ -10,38 +11,38 @@ import (
 )
 
 var (
-	Uppercase     = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	Lowercase     = "abcdefghijklmnopqrstuvwxyz"
-	Numbers       = "0123456789"
-	Symbols       = ".,;:!?./-\"'#{([-|\\@)]=}*+"
-	DefaultStr    = Uppercase + Lowercase + Numbers
-	DefaultLength = 64
+	Uppercase       = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	Lowercase       = "abcdefghijklmnopqrstuvwxyz"
+	Numbers         = "0123456789"
+	Symbols         = ".,;:!?./-\"'#{([-|\\@)]=}*+"
+	DefaultAlphabet = Uppercase + Lowercase + Numbers
+	DefaultLength   = 64
 )
 
-func AllAlphabet(s string) (str string) {
+func AllAlphabet(s string) (alphabet string) {
 	if strings.ContainsAny(s, "u") {
-		str += Uppercase
+		alphabet += Uppercase
 	}
 	if strings.ContainsAny(s, "l") {
-		str += Lowercase
+		alphabet += Lowercase
 	}
 	if strings.ContainsAny(s, "n") {
-		str += Numbers
+		alphabet += Numbers
 	}
 	if strings.ContainsAny(s, "s") {
-		str += Symbols
+		alphabet += Symbols
 	}
-	return str
+	return alphabet
 }
 
-func ShuffleArray(str string, length int) string {
-	if len(str) == 0 {
-		str = DefaultStr
+func ShuffleArray(alphabet string, length int) string {
+	if len(alphabet) == 0 {
+		alphabet = DefaultAlphabet
 	}
 	if length < 1 || length > 512 {
 		length = DefaultLength
 	}
-	s := strings.Repeat(str, length)
+	s := strings.Repeat(alphabet, length)
 	a := strings.Split(s, "")
 	for i := len(a) - 1; i > 0; i-- {
 		j := rand.Intn(i)
@@ -50,14 +51,26 @@ func ShuffleArray(str string, length int) string {
 	return strings.Join(a, "")[0:length]
 }
 
-func GenerateMD5(s, e string) string {
+func GenerateMD5(hashString, hashEncoding string) string {
 	hasher := md5.New()
 	// 将数据写入哈希对象
-	hasher.Write([]byte(s))
+	hasher.Write([]byte(hashString))
 	// 计算哈希值
 	hashBytes := hasher.Sum(nil)
+	return convertHash(hashBytes, hashEncoding)
+}
 
-	switch e {
+func GenerateSha1(hashString, hashEncoding string) string {
+	hasher := sha1.New()
+	// 将数据写入哈希对象
+	hasher.Write([]byte(hashString))
+	// 计算哈希值
+	hashBytes := hasher.Sum(nil)
+	return convertHash(hashBytes, hashEncoding)
+}
+
+func convertHash(hashBytes []byte, hashEncoding string) string {
+	switch hashEncoding {
 	case "b":
 		// 将哈希值转换为二进制字符串
 		b := fmt.Sprintf("%08b", hashBytes)
@@ -76,6 +89,5 @@ func GenerateMD5(s, e string) string {
 		b64u := base64.RawURLEncoding.EncodeToString(hashBytes)
 		return b64u
 	}
-
 	return hex.EncodeToString(hashBytes)
 }
