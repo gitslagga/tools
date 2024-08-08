@@ -10,6 +10,10 @@ import (
 
 func init() {
 	cryptoCmd.AddCommand(tokenCmd)
+	cryptoCmd.AddCommand(hashCmd)
+
+	hashCmd.Flags().StringVarP(&hashString, "string", "s", "", "Your string to hash")
+	hashCmd.Flags().StringVarP(&hashEncoding, "encoding", "e", "", "Digest encoding: b,x,b64,b64u")
 }
 
 var cryptoCmd = &cobra.Command{
@@ -26,7 +30,7 @@ var tokenCmd = &cobra.Command{
 			token := kit.ShuffleArray(kit.DefaultStr, kit.DefaultLength)
 			fmt.Println("crypto token generate:", token)
 		case 1:
-			if length, err := strconv.ParseInt(args[0], 10, 64); err != nil {
+			if length, err := strconv.Atoi(args[0]); err != nil {
 				str := kit.AllAlphabet(args[0])
 				token := kit.ShuffleArray(str, kit.DefaultLength)
 				fmt.Println("crypto token generate:", token)
@@ -36,9 +40,19 @@ var tokenCmd = &cobra.Command{
 			}
 		default:
 			str := kit.AllAlphabet(args[0])
-			length, _ := strconv.ParseInt(args[1], 10, 64)
+			length, _ := strconv.Atoi(args[1])
 			token := kit.ShuffleArray(str, length)
 			fmt.Println("crypto token generate:", token)
 		}
+	},
+}
+
+var hashString, hashEncoding string
+var hashCmd = &cobra.Command{
+	Use:   "hash",
+	Short: "Hash a text string using the function you need : MD5, SHA1, SHA256, SHA224, SHA512, SHA384, SHA3 or RIPEMD160",
+	Run: func(cmd *cobra.Command, args []string) {
+		md5Hash := kit.GenerateMD5(hashString, hashEncoding)
+		fmt.Println("crypto md5 hash generate:", md5Hash)
 	},
 }
