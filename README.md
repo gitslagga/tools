@@ -17,5 +17,17 @@ Prerequisites to build Tools from source:
 Build the standard edition:
 
 ```bash
-go install github.com/gitslagga/tools@latest
+$ go install github.com/gitslagga/tools@latest
+```
+
+## Usage
+
+Crypto tools command line help:
+
+```bash
+$ tools crypto token
+$ tools crypto token -a "ulns" -l 16
+
+$ tools crypto hash
+$ tools crypto hash -s "Hello World" -e "b"
 ```

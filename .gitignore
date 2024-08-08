@@ -24,3 +24,5 @@ go.work.sum
 # Build output
 main
 main.exe
+tools
+tools.exe

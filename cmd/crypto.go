@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"strconv"
 
 	"github.com/gitslagga/tools/kit"
 	"github.com/spf13/cobra"
@@ -11,6 +10,9 @@ import (
 func init() {
 	cryptoCmd.AddCommand(tokenCmd)
 	cryptoCmd.AddCommand(hashCmd)
+
+	tokenCmd.Flags().StringVarP(&tokenAlphabet, "alphabet", "a", "uln", "Alphabet prefix: u,l,n,s")
+	tokenCmd.Flags().IntVarP(&tokenLength, "length", "l", kit.DefaultLength, "Your token length")
 
 	hashCmd.Flags().StringVarP(&hashString, "string", "s", "", "Your string to hash")
 	hashCmd.Flags().StringVarP(&hashEncoding, "encoding", "e", "", "Digest encoding: b,x,b64,b64u")
@@ -21,29 +23,15 @@ var cryptoCmd = &cobra.Command{
 	Short: "Crypto",
 }
 
+var tokenAlphabet string
+var tokenLength int
 var tokenCmd = &cobra.Command{
 	Use:   "token",
 	Short: "Generate random string with the chars you want, uppercase or lowercase letters, numbers and/or symbols",
 	Run: func(cmd *cobra.Command, args []string) {
-		switch len(args) {
-		case 0:
-			token := kit.ShuffleArray(kit.DefaultAlphabet, kit.DefaultLength)
-			fmt.Println("crypto token generate:", token)
-		case 1:
-			if length, err := strconv.Atoi(args[0]); err != nil {
-				alphabet := kit.AllAlphabet(args[0])
-				token := kit.ShuffleArray(alphabet, kit.DefaultLength)
-				fmt.Println("crypto token generate:", token)
-			} else {
-				token := kit.ShuffleArray(kit.DefaultAlphabet, length)
-				fmt.Println("crypto token generate:", token)
-			}
-		default:
-			alphabet := kit.AllAlphabet(args[0])
-			length, _ := strconv.Atoi(args[1])
-			token := kit.ShuffleArray(alphabet, length)
-			fmt.Println("crypto token generate:", token)
-		}
+		alphabet := kit.AllAlphabet(tokenAlphabet)
+		token := kit.ShuffleArray(alphabet, tokenLength)
+		fmt.Println("crypto token generate:", token)
 	},
 }
 
