@@ -41,9 +41,21 @@ var hashCmd = &cobra.Command{
 	Short: "Hash a text string using the function you need : MD5, SHA1, SHA256, SHA224, SHA512, SHA384, SHA3 or RIPEMD160",
 	Run: func(cmd *cobra.Command, args []string) {
 		md5Hash := kit.GenerateMD5(hashString, hashEncoding)
-		fmt.Printf("%-30s %s\n", "crypto md5 hash generate:", md5Hash)
-
+		fmt.Printf("%-30s %s\n", "md5 hash generate:", md5Hash)
 		sha1Hash := kit.GenerateSha1(hashString, hashEncoding)
-		fmt.Printf("%-30s %s\n", "crypto sha1 hash generate:", sha1Hash)
+		fmt.Printf("%-30s %s\n", "sha1 hash generate:", sha1Hash)
+		sha256Hash := kit.GenerateSha256(hashString, hashEncoding)
+		fmt.Printf("%-30s %s\n", "sha256 hash generate:", sha256Hash)
+		sha224Hash := kit.GenerateSha224(hashString, hashEncoding)
+		fmt.Printf("%-30s %s\n", "sha224 hash generate:", sha224Hash)
+		sha512Hash := kit.GenerateSha512(hashString, hashEncoding)
+		fmt.Printf("%-30s %s\n", "sha512 hash generate:", sha512Hash)
+
+		sha384Hash := kit.GenerateSha384(hashString, hashEncoding)
+		fmt.Printf("%-30s %s\n", "sha384 hash generate:", sha384Hash)
+		sha3Hash := kit.GenerateSha3(hashString, hashEncoding)
+		fmt.Printf("%-30s %s\n", "sha3 hash generate:", sha3Hash)
+		ripemd160Hash := kit.GenerateRipemd160(hashString, hashEncoding)
+		fmt.Printf("%-30s %s\n", "ripemd160 hash generate:", ripemd160Hash)
 	},
 }

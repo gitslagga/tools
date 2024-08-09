@@ -3,11 +3,16 @@ package kit
 import (
 	"crypto/md5"
 	"crypto/sha1"
+	"crypto/sha256"
+	"crypto/sha512"
 	"encoding/base64"
 	"encoding/hex"
 	"fmt"
 	"math/rand"
 	"strings"
+
+	"golang.org/x/crypto/ripemd160"
+	"golang.org/x/crypto/sha3"
 )
 
 var (
@@ -62,6 +67,60 @@ func GenerateMD5(hashString, hashEncoding string) string {
 
 func GenerateSha1(hashString, hashEncoding string) string {
 	hasher := sha1.New()
+	// 将数据写入哈希对象
+	hasher.Write([]byte(hashString))
+	// 计算哈希值
+	hashBytes := hasher.Sum(nil)
+	return convertHash(hashBytes, hashEncoding)
+}
+
+func GenerateSha256(hashString, hashEncoding string) string {
+	hasher := sha256.New()
+	// 将数据写入哈希对象
+	hasher.Write([]byte(hashString))
+	// 计算哈希值
+	hashBytes := hasher.Sum(nil)
+	return convertHash(hashBytes, hashEncoding)
+}
+
+func GenerateSha224(hashString, hashEncoding string) string {
+	hasher := sha256.New224()
+	// 将数据写入哈希对象
+	hasher.Write([]byte(hashString))
+	// 计算哈希值
+	hashBytes := hasher.Sum(nil)
+	return convertHash(hashBytes, hashEncoding)
+}
+
+func GenerateSha512(hashString, hashEncoding string) string {
+	hasher := sha512.New()
+	// 将数据写入哈希对象
+	hasher.Write([]byte(hashString))
+	// 计算哈希值
+	hashBytes := hasher.Sum(nil)
+	return convertHash(hashBytes, hashEncoding)
+}
+
+func GenerateSha384(hashString, hashEncoding string) string {
+	hasher := sha512.New384()
+	// 将数据写入哈希对象
+	hasher.Write([]byte(hashString))
+	// 计算哈希值
+	hashBytes := hasher.Sum(nil)
+	return convertHash(hashBytes, hashEncoding)
+}
+
+func GenerateSha3(hashString, hashEncoding string) string {
+	hasher := sha3.New512()
+	// 将数据写入哈希对象
+	hasher.Write([]byte(hashString))
+	// 计算哈希值
+	hashBytes := hasher.Sum(nil)
+	return convertHash(hashBytes, hashEncoding)
+}
+
+func GenerateRipemd160(hashString, hashEncoding string) string {
+	hasher := ripemd160.New()
 	// 将数据写入哈希对象
 	hasher.Write([]byte(hashString))
 	// 计算哈希值
